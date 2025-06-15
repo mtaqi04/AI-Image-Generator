@@ -1,5 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
+import { SearchBar } from '../components/SearchBar';
+import { ImageCard } from '../components/ImageCard';
 
 const Headline = styled.div`
   font-size: 34px;
@@ -23,8 +25,16 @@ const Span = styled.div`
   flex-direction: column;
 
   @media (max-width: 600px) {
-    font-size: 22px;
+    font-size: 20px;
   }
+`;
+
+const Wrapper = styled.div`
+  width: 100%;
+  max-width: 1400px;
+  padding: 32px 0px;
+  display: flex;
+  justify-content: center;
 `;
 
 
@@ -43,12 +53,41 @@ const Container = styled.div`
   }
 `;
 
+const CardWrapper = styled.div`
+  display: grid;
+  gap: 20px;
+  @media (min-width: 1200px) {
+  
+    grid-template-columns: repeat(4, 1fr);
+  }
+  @media (min-width: 640px) and (max-width: 1199px) {
+  
+    grid-template-columns: repeat(3, 1fr);
+  }
+  @media (max-width: 639px) {
+  
+    grid-template-columns: repeat(2, 1fr);
+  }
+`;
+
+
 export const Home = () => {
   return ( <Container>
     <Headline>Explore Popular Posts in the Community!
-      <Span>Generated with AI</Span>
+      <Span>⦿ Generated with Artificial Intelligence ⦿</Span>
     </Headline>
-
+    <SearchBar />
+    <Wrapper>
+      <CardWrapper>
+        <ImageCard/>
+        <ImageCard/>
+        <ImageCard/>
+        <ImageCard/>
+        <ImageCard/>
+        <ImageCard/>
+        <ImageCard/>
+      </CardWrapper>
+    </Wrapper>
     </Container>
   )
 }
