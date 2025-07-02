@@ -3,6 +3,8 @@ import styled from 'styled-components'
 import { SearchBar } from '../components/SearchBar';
 import { ImageCard } from '../components/ImageCard';
 
+
+
 const Headline = styled.div`
   font-size: 34px;
   font-weight: 500;
@@ -72,6 +74,13 @@ const CardWrapper = styled.div`
 
 
 export const Home = () => {
+  
+  const item = {
+    photo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTc9APxkj0xClmrU3PpMZglHQkx446nQPG6lA&s',
+    author: 'Mo',
+    prompt: 'Visual Photo',
+  }
+  
   return ( <Container>
     <Headline>Explore Popular Posts in the Community!
       <Span>⦿ Generated with Artificial Intelligence ⦿</Span>
@@ -79,13 +88,13 @@ export const Home = () => {
     <SearchBar />
     <Wrapper>
       <CardWrapper>
-        <ImageCard/>
-        <ImageCard/>
-        <ImageCard/>
-        <ImageCard/>
-        <ImageCard/>
-        <ImageCard/>
-        <ImageCard/>
+        <ImageCard item={item} />
+        <ImageCard item={item} />
+        <ImageCard item={item} />
+        <ImageCard item={item} />
+        <ImageCard item={item} />
+        <ImageCard item={item} />
+        <ImageCard item={item} />
       </CardWrapper>
     </Wrapper>
     </Container>

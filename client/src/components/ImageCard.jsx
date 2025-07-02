@@ -2,6 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { Avatar } from '@mui/material';
+import { DownloadRounded } from '@mui/icons-material';
+import FileSaver from 'file-saver';
 
 const Card = styled.div`
     position: relative;
@@ -30,7 +32,7 @@ const HoverOverlay = styled.div`
     display: flex;
     flex-direction: column;
     align-items: start;
-    gap: 2px;
+    gap: 10px;
     backdrop-filter: blur(2px);
     background: rgba(0, 0, 0, 0.5);
     color: ${({ theme }) => theme.white};
@@ -59,17 +61,28 @@ const Author = styled.div`
     color: ${({ theme }) => theme.white};
 `;
 
-export const ImageCard = () => {
+export const ImageCard = ({item}) => {
   return (
     <Card>
-        <LazyLoadImage
+        <LazyLoadImage 
+        alt='item?.prompt'
+        style={{borderRadius: '12px'}}
         width="100%"
-         src='https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/500px-Image_created_with_a_mobile_phone.png'/>
+         src={item?.photo}/>
         <HoverOverlay>
-            <Prompt>Prompt</Prompt>
+            <Prompt>{item?.prompt}</Prompt>
+            <div style={{
+                width: '100%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+            }}>
             <Author>
-                <Avatar sx={{ width: '32px', height: '32px'}}>R</Avatar>
-                Author</Author>
+                <Avatar sx={{ width: '32px', height: '32px'}}>{item?.author[0]}</Avatar>
+                {item?.author}
+            </Author>
+            <DownloadRounded onClick={()=>FileSaver.saveAs(item?.photo, 'download.jpg')}/>
+            </div>
         </HoverOverlay>
     </Card>
   )
