@@ -45,11 +45,12 @@ const Actions = styled.div`
 
 
 const GenerateImageForm = ({
-          post, 
-          setPost,
-          createPostLoading,
-          generateImageLoading,
-          setCreatePostLoading,
+      post, 
+      setPost, 
+      createPostLoading,
+      setGenerateImageLoading,
+      generateImageLoading,
+      setCreatePostLoading,
 }) => {
   const generateImageFun = () => {
     setGenerateImageLoading(true);

@@ -49,10 +49,10 @@ export const CreatePost = () => {
       <GenerateImageForm 
           post={post} 
           setPost={setPost} 
-          createPostLoading={createPostLoading} 
+          createPostLoading={createPostLoading}
+          setGenerateImageLoading={setGenerateImageLoading}
           generateImageLoading={generateImageLoading}
           setCreatePostLoading={setCreatePostLoading}
-          setGenerateImageLoading={setGenerateImageLoading}
       />
 
         <GeneratedImageCard src={post?.photo} loading={generateImageLoading}/>
