@@ -2,6 +2,8 @@ import cors from 'cors';
 import express from 'express';
 import mongoose from 'mongoose';
 import * as dotenv from 'dotenv';
+import PostRouter from './routes/Posts.js';
+import GenerateImageRouter from './routes/GenerateImage.js';
 
 dotenv.config();
 
@@ -21,6 +23,9 @@ app.use((err, req, res, next) => {
     });
 });
 
+app.use("/api/post", PostRouter);
+app.use("/api/generateImage", GenerateImageRouter);
+
 //Default get
 app.get("/", async (req, res) => {
     res.status(200).json({
@@ -29,26 +34,28 @@ app.get("/", async (req, res) => {
 });
 
 // function to connect to mongodb
-const connectDB = () => {
-    mongoose.set("strictQuery", true);
-    mongoose
-        .connect(process.env.MONGODB_URL)
-        .then(() => console.log("MongoDB connected"))
-        .catch((err) => {
-            console.error("Failed to connect to DB");
-            console.error(err);
-        });
+const connectDB = async () => {
+    try {
+        mongoose.set("strictQuery", true);
+        await mongoose.connect(process.env.MONGODB_URL);
+        console.log("MongoDB connected");
+    } catch (err) {
+        console.error("Failed to connect to DB");
+        console.error(err);
+        process.exit(1); // exit the process if DB connection fails
+    }
 };
+
 
 
 
 //function to start the server
 const startServer = async () => {
     try {
-        connectDB();
+        await connectDB();
         app.listen(8080, () => console.log("Server started on port 8080"));
-    }catch (error) {
-        console.error("Error starting server:");
+    } catch (error) {
+        console.error("Error starting server:", error);
     }
 };
 
