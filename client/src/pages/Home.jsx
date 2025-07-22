@@ -1,9 +1,9 @@
-import React from 'react'
-import styled from 'styled-components'
+import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
 import { SearchBar } from '../components/SearchBar';
 import { ImageCard } from '../components/ImageCard';
-
-
+import { CircularProgress } from '@mui/material';
+import { GetPosts } from '../api';
 
 
 const Container = styled.div`
@@ -55,50 +55,92 @@ const Wrapper = styled.div`
   justify-content: center;
 `;
 
-
-
 const CardWrapper = styled.div`
   display: grid;
   gap: 20px;
   @media (min-width: 1200px) {
-  
     grid-template-columns: repeat(4, 1fr);
   }
   @media (min-width: 640px) and (max-width: 1199px) {
-  
     grid-template-columns: repeat(3, 1fr);
   }
   @media (max-width: 639px) {
-  
     grid-template-columns: repeat(2, 1fr);
   }
 `;
 
-
 export const Home = () => {
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [search, setSearch] = useState('');
+  const [filteredPosts, setFilteredPosts] = useState([]);
+
+  const getPosts = async () => {
+    setLoading(true);
+    await GetPosts()
+      .then((res) => {
+        setLoading(false);
+        setPosts(res?.data?.data);
+        setFilteredPosts(res?.data?.data);
+      })
+      .catch((error) => {
+        setError(error?.response?.data?.message || 'Failed to fetch posts');
+        setLoading(false);
+      });
+  };
+
+  useEffect(() => {
+    getPosts();
+  }, []);
+
+  // Search filtering
+  useEffect(() => {
+    if (!search) {
+      setFilteredPosts(posts);
+      return;
+    }
   
-  const item = {
-    photo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTc9APxkj0xClmrU3PpMZglHQkx446nQPG6lA&s',
-    author: 'Mo',
-    prompt: 'Visual Photo',
-  }
+    const lowerSearch = search.toString().toLowerCase();
   
-  return ( <Container>
-    <Headline>Explore Popular Posts in the Community!
-      <Span>⦿ Generated with Artificial Intelligence ⦿</Span>
-    </Headline>
-    <SearchBar />
-    <Wrapper>
-      <CardWrapper>
-        <ImageCard item={item} />
-        <ImageCard item={item} />
-        <ImageCard item={item} />
-        <ImageCard item={item} />
-        <ImageCard item={item} />
-        <ImageCard item={item} />
-        <ImageCard item={item} />
-      </CardWrapper>
-    </Wrapper>
+    const SearchFilteredPosts = posts.filter((post) => {
+      const promptMatch = post?.prompt?.toLowerCase().includes(lowerSearch);
+      const authorMatch = post?.name?.toLowerCase().includes(lowerSearch);
+      return promptMatch || authorMatch;
+    });
+  
+    setFilteredPosts(SearchFilteredPosts);
+  }, [posts, search]);
+  
+
+  return (
+    <Container>
+      <Headline>
+        Explore Popular Posts in the Community!
+        <Span>⦿ Generated with Artificial Intelligence ⦿</Span>
+      </Headline>
+      <SearchBar search={search} setSearch={setSearch} />
+      <Wrapper>
+        {error && <div style={{ color: 'red' }}>{error}</div>}
+        {loading ? (
+          <CircularProgress />
+        ) : (
+          <CardWrapper>
+            {filteredPosts.length === 0 ? (
+              <>No Posts Found</>
+            ) : (
+              <>
+                {filteredPosts
+                  .slice()
+                  .reverse()
+                  .map((item, index) => (
+                    <ImageCard key={index} item={item} />
+                  ))}
+              </>
+            )}
+          </CardWrapper>
+        )}
+      </Wrapper>
     </Container>
-  )
-}
+  );
+};
