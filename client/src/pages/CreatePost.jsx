@@ -2,7 +2,10 @@ import React, { use } from 'react'
 import styled from 'styled-components'
 import GenerateImageForm from '../components/GenerateImageForm'
 import GeneratedImageCard from '../components/GeneratedImageCard'
+<<<<<<< HEAD
 import { useState } from 'react';
+=======
+>>>>>>> 4721d13 (Feat: Added the image generation card for image generation a loading bar in case of delay.)
 
 const Container = styled.div`
   height: 100%;
@@ -46,6 +49,7 @@ export const CreatePost = () => {
   return (
     <Container>
       <Wrapper>
+<<<<<<< HEAD
       <GenerateImageForm 
           post={post} 
           setPost={setPost} 
@@ -56,6 +60,10 @@ export const CreatePost = () => {
       />
 
         <GeneratedImageCard src={post?.photo} loading={generateImageLoading}/>
+=======
+        <GenerateImageForm />
+        <GeneratedImageCard loading/>
+>>>>>>> 4721d13 (Feat: Added the image generation card for image generation a loading bar in case of delay.)
       </Wrapper>
     </Container>
   )

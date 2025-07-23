@@ -4,7 +4,10 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 const Container = styled.div`
     flex: 1;
+<<<<<<< HEAD
     min-height: 300px;
+=======
+>>>>>>> 4721d13 (Feat: Added the image generation card for image generation a loading bar in case of delay.)
     display: flex;
     gap: 16px;
     align-items: center;
