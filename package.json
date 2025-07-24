@@ -4,7 +4,10 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "node index.js"
+    "start": "npm --prefix server start",
+    "client": "npm --prefix client start",
+    "server": "npm --prefix server start",
+    "install": "npm install --prefix server && npm install --prefix client"
   },
   "dependencies": {
     "cors": "^2.8.5",
